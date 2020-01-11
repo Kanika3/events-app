@@ -1,20 +1,43 @@
 import React  from 'react';
 import './Datatable.css';
+import { string } from 'prop-types';
 
 class Cell extends React.Component 
 {
-    onSort(colName){
-        console.log("Sort by " + colName);
-        this.props.onSort(colName);
+    sortingInfo = {
+        column : string,
+        direction : string
+    }
+
+    constructor(props) {
+        super(props);
+        this.sortConfig = {};
+    }
+
+    onSort(e,colName){
+        let direction;
+        if(this.sortConfig.column === colName)
+        {
+            direction = this.sortConfig.direction === "asc" ? "desc" : "asc";
+            this.sortConfig.direction = direction;
+        }
+        else
+        {
+            this.sortConfig.direction = "asc";
+            this.sortConfig.column = colName;
+        }
+        this.props.onSort(colName, direction);
     }
 
     render() {
 
         var {header, content} = this.props;
         const cellMarkup = header ? (
-            <th className="Cell Cell-header" onClick={e=> this.onSort(content)}>
-              {content}
-            </th>
+                <th className="Cell Cell-header" onClick={e=> this.onSort(e,content)}>
+                    <label>{content}</label>
+                    <br/>
+                    <input type="text"/>
+                </th>
           ) : (
             <td className="Cell">
               {content}

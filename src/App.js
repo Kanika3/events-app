@@ -21,32 +21,49 @@ class App extends React.Component{
               });
   }
 
-  onSort = (colName) => {
-    console.log("App will sort");
+  compare(nameA, nameB) {
+        
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
 
+    // names must be equal
+    return 0;
+  }
+  onSort = (colName,direction) => {
     const sortedData = this.state.events.sort((a, b) => {
         if (colName === 'Category') {
-          console.log(a.categories.title);
-          const nameA = a.categories[0].title.toUpperCase(); // ignore upper and lowercase
-          const nameB = b.categories[0].title.toUpperCase(); // ignore upper and lowercase
-          if (nameA < nameB) {
-            return -1;
-          }
-          if (nameA > nameB) {
-            return 1;
-          }
-  
-          // names must be equal
-          return 0;
+          const nameA = a.categories[0].title.toUpperCase(); 
+          const nameB = b.categories[0].title.toUpperCase(); 
+          
+          return this.compare(nameA,nameB);
         } 
+        else if(colName === "Status"){
+          const nameA = a.closed ? "closed" : "open" 
+          const nameB = b.closed ? "closed" : "open" 
+          
+          return this.compare(nameA,nameB);
+        }
+        else if(colName === "Date") {
+          const nameA = a.geometries[0].date; 
+          const nameB = b.geometries[0].date;  
+          
+          return this.compare(nameA,nameB);
+        }
         else {
-          return a.contractValue - b.contractValue;
+          const nameA = a.title.toUpperCase(); 
+          const nameB = b.title.toUpperCase();  
+          
+          return this.compare(nameA,nameB);
         }
       });
         
-      // if (direction === 'desc') {
-      //   sortedData.reverse();
-      // }
+      if (direction === 'desc') {
+        sortedData.reverse();
+      }
       
       this.setState({
         events: sortedData,

@@ -4,12 +4,8 @@ import './Datatable.css';
 
 class DataTable extends React.Component
 {
-    state = {
-        rows: []
-    }
-
-    onSort = (colName) => {
-        this.props.onSort(colName);
+    onSort = (colName,direction) => {
+        this.props.onSort(colName,direction);
     }
     
 
