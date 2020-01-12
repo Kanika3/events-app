@@ -29,6 +29,9 @@ class Cell extends React.Component
         this.props.onSort(colName, direction);
     }
 
+    onFilter(e,colName) {
+        this.props.onFilter(colName, e.target.value);
+    }
     render() {
 
         var {header, content} = this.props;
@@ -36,7 +39,7 @@ class Cell extends React.Component
                 <th className="Cell Cell-header" onClick={e=> this.onSort(e,content)}>
                     <label>{content}</label>
                     <br/>
-                    <input type="text"/>
+                    <input type="text" onChange = {e => this.onFilter(e,content)}/>
                 </th>
           ) : (
             <td className="Cell">

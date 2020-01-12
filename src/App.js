@@ -8,16 +8,16 @@ class App extends React.Component{
   state = {
        events : [],
        title: string,
-       desc: string
+       desc: string,
+       data : []
   }
-  
 
   componentDidMount()
   {
     const url = "https://eonet.sci.gsfc.nasa.gov/api/v2.1/events";
     fetch(url).then(res => res.json())
               .then(json => {
-                  this.setState({  events : json.events , title : json.title, desc: json.description})
+                  this.setState({  events : json.events , title : json.title, desc: json.description, data: json.events})
               });
   }
 
@@ -33,6 +33,7 @@ class App extends React.Component{
     // names must be equal
     return 0;
   }
+
   onSort = (colName,direction) => {
     const sortedData = this.state.events.sort((a, b) => {
         if (colName === 'Category') {
@@ -67,11 +68,32 @@ class App extends React.Component{
       
       this.setState({
         events: sortedData,
-        // sort: {
-        //   column,
-        //   direction,
-        // }
       });
+  }
+
+  onFilter = (colName,filterValue)=> {
+    console.log("filter " + colName + " text " + filterValue);
+
+    let filteredData = []
+    if(filterValue === "") {
+      filteredData = this.state.data;
+    }
+    else {
+      
+      if (colName === 'Category') {
+        filteredData = this.state.data.filter(d => d.categories[0].title.toUpperCase().includes(filterValue.toUpperCase()));
+      } 
+      else if(colName === "Status") {
+        filteredData = this.state.data.filter(d => d.closed ? filterValue === "Closed": filterValue === "Open" ); 
+      }
+      else if(colName === "Date") {
+        filteredData = this.state.data.filter(d => d.geometries[0].date === filterValue); 
+      }
+      else {
+        filteredData = this.state.data.filter(d => d.title.toUpperCase().includes(filterValue.toUpperCase()));  
+      }
+    }
+  this.setState({events : filteredData});
   }
 
   render()
@@ -90,7 +112,7 @@ class App extends React.Component{
       return (
         <div className="App">
           <h3>{title}</h3>
-          <DataTable headings={headings} rows={events} onSort={this.onSort}/>
+          <DataTable headings={headings} rows={events} onSort={this.onSort} onFilter={this.onFilter}/>
         </div>
       );
     }

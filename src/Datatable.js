@@ -8,7 +8,10 @@ class DataTable extends React.Component
         this.props.onSort(colName,direction);
     }
     
-
+    onFilter = (colName, filterValue) => {
+        this.props.onFilter(colName, filterValue);
+    }
+    
     renderHeadingRow = (_cell, cellIndex) => {
         const {headings} = this.props;
     
@@ -18,6 +21,7 @@ class DataTable extends React.Component
             content={headings[cellIndex]}
             header={true}
             onSort={this.onSort}
+            onFilter={this.onFilter}
           />
         )
       };
