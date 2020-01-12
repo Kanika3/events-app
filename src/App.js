@@ -1,15 +1,17 @@
 import React  from 'react';
 import './App.css';
-import { string } from 'prop-types';
 import DataTable from './Datatable.js';
+import EventDetail from './EventDetail.js'
 
 class App extends React.Component{
 
   state = {
        events : [],
-       title: string,
-       desc: string,
-       data : []
+       title: "",
+       desc: "",
+       data : [],
+       showEventDetails: false,
+       selectedRow : {}
   }
 
   componentDidMount()
@@ -96,9 +98,17 @@ class App extends React.Component{
   this.setState({events : filteredData});
   }
 
+  showDetails = (row) => {
+    this.setState({showEventDetails : true, selectedRow : row});
+  }
+
+  closePopup = () => {
+    this.setState({showEventDetails : false});
+  }
+
   render()
   {
-    var {desc, events ,title} = this.state;
+    var {desc, events ,title,selectedRow} = this.state;
 
     const headings = [desc , "Date", "Status" , "Category"]
     if(!events)
@@ -112,7 +122,9 @@ class App extends React.Component{
       return (
         <div className="App">
           <h3>{title}</h3>
-          <DataTable headings={headings} rows={events} onSort={this.onSort} onFilter={this.onFilter}/>
+          <DataTable headings={headings} rows={events} onSort={this.onSort} onFilter={this.onFilter}
+                     showDetails={this.showDetails}/>
+          {this.state.showEventDetails ? <EventDetail row={selectedRow} closePopup={this.closePopup} />: null}
         </div>
       );
     }

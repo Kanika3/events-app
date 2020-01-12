@@ -42,9 +42,9 @@ class Cell extends React.Component
                     <input type="text" onChange = {e => this.onFilter(e,content)}/>
                 </th>
           ) : (
-            <td className="Cell">
-              {content}
-            </td>
+                <td className="Cell" >
+                    {content}
+                </td>
           );
         
           return (cellMarkup);

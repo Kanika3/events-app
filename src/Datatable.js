@@ -4,6 +4,8 @@ import './Datatable.css';
 
 class DataTable extends React.Component
 {
+    showPopup = false;
+
     onSort = (colName,direction) => {
         this.props.onSort(colName,direction);
     }
@@ -26,25 +28,31 @@ class DataTable extends React.Component
         )
       };
 
+    showDetails = (row) => {
+        console.log("showing popup")
+        this.props.showDetails(row);
+    }
+
     renderRows = (_row, rowIndex) => {
         const {rows} = this.props;
 
     return (
-        <tr key={`row-${rowIndex}`} className={rows[rowIndex].closed ? "closed" : ""}>
+        <tr key={rows[rowIndex].id} className={rows[rowIndex].closed ? "closed" : ""}
+            onClick={e => this.showDetails(rows[rowIndex])}>
             <Cell
-                key={`${rowIndex}-'title'`}
+                key={rows[rowIndex].id + ' title'}
                 content={rows[rowIndex].title}
             />
             <Cell
-                key={`${rowIndex}-'date'`}
+                key={rows[rowIndex].id + ' date'}
                 content={rows[rowIndex].geometries[0].date}
             />
             <Cell
-                key={`${rowIndex}-'status'`} 
+                key={rows[rowIndex].id +' status'} 
                 content={rows[rowIndex].closed ? "Closed": "Open"}
             />
             <Cell
-                key={`${rowIndex}-'category'`}
+                key={rows[rowIndex].id +' category'}
                 content={rows[rowIndex].categories[0].title}
             />
         </tr>
@@ -56,6 +64,7 @@ class DataTable extends React.Component
     
         this.renderHeadingRow = this.renderHeadingRow.bind(this);
         this.renderRow = this.renderRows.bind(this);
+        this.showDetails = this.showDetails.bind(this);
         
         const theadMarkup = (
       <tr key="heading">
