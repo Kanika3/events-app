@@ -1,7 +1,7 @@
 import React  from 'react';
 import './App.css';
 import DataTable from './Datatable.js';
-import EventDetail from './EventDetail.js'
+import EventDetail from './EventDetailPopup.js'
 
 class App extends React.Component{
 

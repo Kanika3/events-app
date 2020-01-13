@@ -7,8 +7,9 @@
     right: 0;
     bottom: 0;
     margin: auto;
-    background-color: rgba(0,0,0, 0.5);
+    background-color: rgba(0,0,0, 0.5);    
   }
+
   .popup_inner {
     position: absolute;
     left: 25%;
@@ -16,10 +17,23 @@
     top: 25%;
     margin: auto;
     background: white;
+    text-align: left;
+    padding: 10px;
+    border:1px solid #cccccc;
+    border-radius: 3px;
+  }
+
+  .popup-header {
+    margin: 0;
   }
 
   .popup-close-btn {
     position: absolute;
     right: 25%;
     top: 25%;
+    border:1px solid #cccccc;
+    background: none;
+    box-shadow: none;
+    border-radius: 0px;
+    font-size: 16px;
   }

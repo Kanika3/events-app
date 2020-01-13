@@ -1,6 +1,7 @@
 import React  from 'react';
 import './Datatable.css';
 import { string } from 'prop-types';
+import Button from '@material-ui/core/Button';
 
 class Cell extends React.Component 
 {
@@ -36,10 +37,16 @@ class Cell extends React.Component
 
         var {header, content} = this.props;
         const cellMarkup = header ? (
-                <th className="Cell Cell-header" onClick={e=> this.onSort(e,content)}>
+                <th className="Cell Cell-header" >
                     <label>{content}</label>
+                    <Button onClick={e=> this.onSort(e,content)} className="sort-button"
+                         color="primary" size="small">Sort</Button>
                     <br/>
-                    <input type="text" onChange = {e => this.onFilter(e,content)}/>
+                    {content !== "Status" ?<input type="text" onChange = {e => this.onFilter(e,content)}/>
+                    : <select onChange = {e => this.onFilter(e,content)}>
+                        <option>Open</option>
+                        <option>Closed</option>
+                    </select>}
                 </th>
           ) : (
                 <td className="Cell" >
