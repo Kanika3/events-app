@@ -23,6 +23,31 @@ class App extends React.Component{
               });
   }
 
+  
+  render()
+  {
+    var {events ,title,selectedRow} = this.state;
+
+    const headings = ["Natural Events" , "Date", "Status" , "Category"]
+    if(!events)
+    {
+      return (
+          <div>No events!!</div>
+        );
+    }
+    else
+    {
+      return (
+        <div className="App">
+          <h3>{title}</h3>
+          <DataTable headings={headings} rows={events} onSort={this.onSort} onFilter={this.onFilter}
+                     showDetails={this.showDetails}/>
+          {this.state.showEventDetails ? <EventDetail row={selectedRow} closePopup={this.closePopup} />: null}
+        </div>
+      );
+    }
+  }
+
   compare(nameA, nameB) {
         
     if (nameA < nameB) {
@@ -106,29 +131,6 @@ class App extends React.Component{
     this.setState({showEventDetails : false});
   }
 
-  render()
-  {
-    var {desc, events ,title,selectedRow} = this.state;
-
-    const headings = [desc , "Date", "Status" , "Category"]
-    if(!events)
-    {
-      return (
-          <div>No events!!</div>
-        );
-    }
-    else
-    {
-      return (
-        <div className="App">
-          <h3>{title}</h3>
-          <DataTable headings={headings} rows={events} onSort={this.onSort} onFilter={this.onFilter}
-                     showDetails={this.showDetails}/>
-          {this.state.showEventDetails ? <EventDetail row={selectedRow} closePopup={this.closePopup} />: null}
-        </div>
-      );
-    }
-  }
 }
 
 export default App;

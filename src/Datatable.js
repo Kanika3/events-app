@@ -4,7 +4,6 @@ import './Datatable.css';
 
 class DataTable extends React.Component
 {
-    showPopup = false;
 
     onSort = (colName,direction) => {
         this.props.onSort(colName,direction);
